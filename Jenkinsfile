@@ -33,36 +33,36 @@ pipeline {
 
           stage("Docker build") {
                steps {
-                    sh "docker build -t leszko/calculator:${BUILD_TIMESTAMP} ."
+                    // sh "docker build -t leszko/calculator:${BUILD_TIMESTAMP} ."
                }
           }
 
           stage("Docker login") {
                steps {
-                    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'docker-hub-credentials',
-                               usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-                         sh "docker login --username $USERNAME --password $PASSWORD"
+                    //withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'docker-hub-credentials',
+                      //         usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+                        // sh "docker login --username $USERNAME --password $PASSWORD"
                     }
                }
           }
 
           stage("Docker push") {
                steps {
-                    sh "docker push leszko/calculator:${BUILD_TIMESTAMP}"
+                   // sh "docker push leszko/calculator:${BUILD_TIMESTAMP}"
                }
           }
 
           stage("Update version") {
                steps {
-                    sh "sed  -i 's/{{VERSION}}/${BUILD_TIMESTAMP}/g' calculator.yaml"
+                    //sh "sed  -i 's/{{VERSION}}/${BUILD_TIMESTAMP}/g' calculator.yaml"
                }
           }
           
           stage("Deploy to staging") {
                steps {
-                    sh "kubectl config use-context staging"
-                    sh "kubectl apply -f hazelcast.yaml"
-                    sh "kubectl apply -f calculator.yaml"
+                   // sh "kubectl config use-context staging"
+                    //sh "kubectl apply -f hazelcast.yaml"
+                    //sh "kubectl apply -f calculator.yaml"
                }
           }
 
@@ -75,9 +75,9 @@ pipeline {
 
           stage("Release") {
                steps {
-                    sh "kubectl config use-context production"
-                    sh "kubectl apply -f hazelcast.yaml"
-                    sh "kubectl apply -f calculator.yaml"
+                    //sh "kubectl config use-context production"
+                   // sh "kubectl apply -f hazelcast.yaml"
+                   // sh "kubectl apply -f calculator.yaml"
                }
           }
           stage("Smoke test") {
